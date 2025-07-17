@@ -11,7 +11,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
 app.get("/customers", async (req, res) => {
- const cust = await da.getCustomers();
- res.send(cust);
+     const [cust, err] = await da.getCustomers();
+     if(cust){
+         res.send(cust);
+     }else{
+         res.status(500);
+         res.send(err);
+     }   
 });
